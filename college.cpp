@@ -10,7 +10,7 @@ class student {
 public:
     long int reg;
     char name[80], branch[50];
-    
+
     void input() {
         cout << "\nEnter name: ";
         cin.ignore();
@@ -21,7 +21,7 @@ public:
         cout << "\nEnter Branch: ";
         cin.getline(branch, 50);
     }
-    
+
     void display() {
         system("CLS");
         cout << "\tDisplay Records\n";
@@ -32,7 +32,7 @@ public:
         system("PAUSE");
         system("CLS");
     }
-    
+
     bool operator==(student a) {
         return (reg == a.reg);
     }
@@ -57,10 +57,8 @@ void get_file() {
 }
 
 void bubblesort() {
-    int i, j;
-    student x;
-    for (i = 0; i < v.size(); i++)
-        for (j = 0; j < v.size() - i - 1; j++)
+    for (int i = 0; i < v.size(); i++)
+        for (int j = 0; j < v.size() - i - 1; j++)
             if (v[j].reg > v[j + 1].reg)
                 swap(v[j], v[j + 1]);
 }
@@ -68,7 +66,7 @@ void bubblesort() {
 void insert_new() {
     char ch = 'y';
     int ta;
-    while (ch == 'y') {
+    while (ch == 'y' || ch == 'Y') {
         student x;
         x.input();
         if (search_reg(x.reg, ta) == 0)
@@ -102,13 +100,12 @@ void search_and_show() {
     int ch, i;
     char name[80], branch[50];
     long int reg;
-    vector<int> vi, vj;
-    
+
     cout << "\n1. Search by Reg No.";
     cout << "\n2. Search by Name";
     cout << "\n3. Search by Branch";
     cin >> ch;
-    
+
     switch (ch) {
         case 1:
             cout << "\nEnter reg no.: ";
@@ -169,12 +166,34 @@ void edit_data() {
     }
 }
 
+// --- AUTHENTICATION FUNCTION ---
+bool login() {
+    string uname, pwd;
+    cout << "=== Admin Login ===\n";
+    cout << "Username: ";
+    cin >> uname;
+    cout << "Password: ";
+    cin >> pwd;
+
+    if (uname == "admin" && pwd == "admin123") {
+        cout << "\nLogin successful!\n";
+        return true;
+    } else {
+        cout << "\nInvalid credentials. Access denied.\n";
+        return false;
+    }
+}
+
 int main() {
+    if (!login()) {
+        return 0; // Exit if login fails
+    }
+
     int ch;
     char ch1 = 'y';
     get_file();
-    
-    while (ch1 == 'y') {
+
+    while (ch1 == 'y' || ch1 == 'Y') {
         cout << "1. Insert new record\n";
         cout << "2. Show all records\n";
         cout << "3. Search record\n";
@@ -183,7 +202,7 @@ int main() {
         cout << "6. Exit\n";
         cout << "\nEnter your choice: ";
         cin >> ch;
-        
+
         switch (ch) {
             case 1: insert_new(); break;
             case 2: show(); break;
@@ -195,7 +214,6 @@ int main() {
         }
         write_file();
     }
+
     return 0;
 }
-// This program is a simple college management system that allows you to add, display, search, edit, and delete student records.
-// It uses a vector to store student records and a file to persist the data.
